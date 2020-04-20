@@ -1,0 +1,10 @@
+https://www.tutorialrepublic.com/faq/how-to-get-the-data-id-attribute-of-an-element-using-jquery.php
+
+https://openclassrooms.com/forum/sujet/post-jquery-fonction-de-retour-avec-2-parametres
+
+https://api.jquery.com/jQuery.getJSON/
+
+https://www.pierre-giraud.com/jquery-apprendre-cours/creation-requete-ajax/
+
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/JSON/parse
+
