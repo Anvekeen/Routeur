@@ -40,10 +40,10 @@ $(document).ready(function() {
 
     $('#user-search-form').on('submit', function(event) {
         event.preventDefault();
-        $.get('ajax.php', {userpk: $('#user-pk-search').val()}
+        $.get('ajax2.php', {userpk: $('#user-pk-search').val()}
         )
             .done(function(data) {
-                $('#ajax-rsp').html(data);
+                $('#ajax2-rsp').html(data);
             });
     });
 

@@ -11,32 +11,32 @@ $display = 'list';
 
 if(isset($_POST) && isset($_POST['type']) && $_POST['type'] == 'create') {
     $product = $product_manager->save($_POST);
-    var_dump($_POST);
+
 }
 
 if(isset($_POST) && isset($_POST['type']) && $_POST['type'] == 'update') {
     $product = $product_manager->update($_POST);
-    var_dump($_POST);
+
 }
 
 if(isset($_POST) && isset($_POST['delete'])) {
     $product = $product_manager->delete($_POST['delete']);
-    var_dump($_POST);
+
 }
 
 if(isset($_POST) && isset($_POST['type']) && $_POST['type'] == 'usercreate') {
     $user = $user_manager->save($_POST);
-    var_dump($_POST);
+
 }
 
 if(isset($_POST) && isset($_POST['type']) && $_POST['type'] == 'userupdate') {
     $user = $user_manager->update($_POST);
-    var_dump($_POST);
+
 }
 
 if(isset($_POST) && isset($_POST['userdelete'])) {
-    $user = $user_manager->delete($_POST['delete']);
-    var_dump($_POST);
+    $user = $user_manager->delete($_POST['userdelete']);
+
 }
 
 
@@ -114,7 +114,7 @@ if(isset($_POST) && isset($_POST['userdelete'])) {
         <input type="submit">
     </form>
 
-    <section id="ajax-rsp">
+    <section id="ajax2-rsp">
 
     </section>
 
