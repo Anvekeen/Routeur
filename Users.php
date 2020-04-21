@@ -3,7 +3,6 @@
 
 class Users
 {
-    //protected?
     private $pk;
     private $username;
     private $password;

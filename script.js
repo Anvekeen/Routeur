@@ -1,3 +1,55 @@
+$(document).ready(function() {
+    console.log('1: jquery ready');
+
+    $('.modif').on('click', function() {
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $.post('update.php', { id:id })
+            .done(function (objet) {
+                var product = JSON.parse(objet);
+                $('#test').val('update');
+                $('#id').val(product.pk);
+                $('#name').val(product.name);
+                $('#price').val(product.price_total);
+                $('#quantity').val(product.quantity);
+            });
+    });
+
+    $('.usermodif').on('click', function() {
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $.post('update.php', { userid:id })
+            .done(function (objet) {
+                var user = JSON.parse(objet);
+                $('#usertest').val('userupdate');
+                $('#userid').val(user.pk);
+                $('#username').val(user.username);
+                $('#password').val(user.password);
+            });
+    });
+
+
+    $('#search-form').on('submit', function(event) {
+        event.preventDefault();
+        $.get('ajax.php', {pk: $('#pk-search').val()}
+        )
+            .done(function(data) {
+                $('#ajax-rsp').html(data);
+            });
+    });
+
+    $('#user-search-form').on('submit', function(event) {
+        event.preventDefault();
+        $.get('ajax.php', {userpk: $('#user-pk-search').val()}
+        )
+            .done(function(data) {
+                $('#ajax-rsp').html(data);
+            });
+    });
+
+});
+
+
 //fais un popup à l'écran (les déconseille)
 //alert('coucou');
 
@@ -5,8 +57,6 @@
 //console.log('coucou console');
 
 //JQUERY = Librairie = une boîte à outils
-$(document).ready(function() {
-    console.log('1: jquery ready');
 
 
 /*<button type="button" id="btn">CLICK ME</button>
@@ -21,28 +71,3 @@ $(document).ready(function() {
         $(this).parents('tr').first().detach();
     });
 */
-
-    $('.modif').on('click', function() {
-        var id = $(this).attr("data-id");
-        console.log(id);
-        $.post('update.php', { id:id })
-            .done(function (objet) {
-                var product = JSON.parse (objet);
-                $('#test').val('update');
-                $('#name').val(product.name);
-                $('#price_total').val(product.price_total);
-                $('#quantity').val(product.quantity);
-            });
-    });
-
-
-    $('#search-form').on('submit', function(event) {
-        event.preventDefault();
-        $.get('ajax.php', {pk: $('#pk-search').val()}
-        )
-            .done(function(data) {
-                $('#ajax-rsp').html(data);
-            });
-    });
-});
-

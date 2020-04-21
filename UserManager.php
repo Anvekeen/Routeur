@@ -1,54 +1,48 @@
 <?php
 
-class ProductManager {
+class UserManager {
 
     private $table;
     private $connection;
-    private $product_list;
+    private $users_list;
 
     function __construct() {
-        $this->table = 'products';
+        $this->table = 'users';
         $this->connection = new PDO('mysql:host=localhost;dbname=demo', 'root', '');
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->product_list = array();
+        $this->users_list = array();
     }
 
     function create($data) {
-        return new Product(
+        return new Users(
             $data['pk'],
-            $data['name'],
-            $data['price'],
-            $data['vat'],
-            $data['quantity']
+            $data['username'],
+            $data['password'],
+            $data['created_at'],
+            $data['updated_at']
         );
     }
 
     function save($data) {
-        $data['pk'] = -1; //pour la setter car si on passe rien ds le construct de produit il ne sera pas content
-        //note : ci-dessous c'est déplacé, d'abord dans l'execute plus bas, mis ici car plus facile de créer le product avant, comme ça
-        //1e vérif faite dans la classe product
-        $product = $this->create([
+        $data['pk'] = -1;
+        $data['created_at'] = -1;
+        $data['updated_at'] = -1;
+        $user = $this->create([
             'pk' => $data['pk'],
-            'name' =>$data['name'],
-            'price' => $data['price'],
-            'vat'=>0,
-            'price_vat'=>0,
-            'price_total'=>0,
-            'quantity'=> $data['quantity']
+            'username' =>$data['username'],
+            'password' => $data['password'],
+            'created_at'=> $data['created_at'],
+            'updated_at'=> $data['updated_at']
         ]);
-        // vérifications sur les inputs du form (+ escape specialcharts)
-        if ($product) {
+
+        if ($user) {
             try{
                 $statement = $this->connection->prepare(
-                    "INSERT INTO {$this->table} (name, price, vat, price_vat, price_total, quantity) VALUES (?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO {$this->table} (username, password, updated_at) VALUES (?, ?, CURRENT_TIMESTAMP)"
                 );
                 $statement->execute([
-                    $product->__get('name'),
-                    $product->__get('price'),
-                    $product->__get('vat'),
-                    $product->__get('price_vat'),
-                    $product->__get('price_total'),
-                    $product->__get('quantity')
+                    $user->__get('username'),
+                    $user->__get('password')
                 ]);
             } catch(PDOException $e) {
                 print $e->getMessage();
@@ -59,12 +53,11 @@ class ProductManager {
     function update($params) {
         try{
             $statement = $this->connection->prepare(
-                "UPDATE {$this->table} SET name = ?, price_total = ?, quantity = ? WHERE pk = ?");
+                "UPDATE {$this->table} SET username = ?, password = ?, updated_at = CURRENT_TIMESTAMP WHERE pk = ?");
             $statement->execute([
-                $params['name'],
-                $params['price'],
-                $params['quantity'],
-                $params['id']
+                $params['username'],
+                $params['password'],
+                $params['userid']
             ]);
         } catch(PDOException $e) {
             print $e->getMessage();
@@ -92,9 +85,9 @@ class ProductManager {
             $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($results as $product) {
-                array_push($this->product_list, $this->create($product));
+                array_push($this->users_list, $this->create($product));
             }
-            return $this->product_list;
+            return $this->users_list;
         } catch (PDOException $e) {
             print $e->getMessage();
         }
