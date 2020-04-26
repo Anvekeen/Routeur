@@ -1,17 +1,11 @@
 <?php
 
-class UserManager {
+include_once 'DAO.php';
 
-    private $table;
-    private $connection;
-    private $users_list;
+class UserManager extends DAO {
 
-    function __construct() {
-        $this->table = 'users';
-        $this->connection = new PDO('mysql:host=localhost;dbname=demo', 'root', '');
-        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->users_list = array();
-    }
+    protected $db = 'demo';
+    protected $table = "users";
 
     function create($data) {
         return new Users(
@@ -23,7 +17,7 @@ class UserManager {
         );
     }
 
-    function save($data) {
+    function saveUser($data) {
         $data['pk'] = -1;
         $data['created_at'] = -1;
         $data['updated_at'] = -1;
@@ -34,88 +28,32 @@ class UserManager {
             'created_at'=> $data['created_at'],
             'updated_at'=> $data['updated_at']
         ]);
-
         if ($user) {
-            try{
-                $statement = $this->connection->prepare(
-                    "INSERT INTO {$this->table} (username, password, updated_at) VALUES (?, ?, CURRENT_TIMESTAMP)"
-                );
-                $statement->execute([
-                    $user->__get('username'),
-                    $user->__get('password')
-                ]);
-            } catch(PDOException $e) {
-                print $e->getMessage();
-            }
+            $colfields = "username, password";
+            $numfields= "?, ?";
+            $object = array($user->__get('username'),$user->__get('password'));
+            parent::save($colfields, $numfields, $object);
         }
     }
 
-    function update($params) {
-        try{
-            $statement = $this->connection->prepare(
-                "UPDATE {$this->table} SET username = ?, password = ?, updated_at = CURRENT_TIMESTAMP WHERE pk = ?");
-            $statement->execute([
-                $params['username'],
-                $params['password'],
-                $params['userid']
-            ]);
-        } catch(PDOException $e) {
-            print $e->getMessage();
+    function updateUser($params) {
+        $colfields = 'username = ?, password = ?';
+        $numfields =  'pk = ?';
+        $object = array($params['username'], $params['password'], $params['userpk']);
+        parent::update($colfields, $numfields, $object);
         }
+
+    function fetchUser($id) {  //pourrait check si $id bien int mais déjà check dans form html, pas sûr que utile
+        $colfields = "pk";
+        $numfields= "?";
+        $result = parent::fetch($colfields, $numfields, $id);
+        return $this->create($result);
     }
 
-    function fetch($id) {
-        try {
-            $statement = $this->connection->prepare("SELECT * FROM {$this->table} WHERE pk = ?");
-
-            $statement->execute([$id]);
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-
-            return $this->create($result);
-
-        } catch (PDOException $e) {
-            print $e->getMessage();
-        }
-    }
-
-    function fetchAll() {
-        try {
-            $statement = $this->connection->prepare("SELECT * FROM {$this->table}");
-            $statement->execute();
-            $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($results as $product) {
-                array_push($this->users_list, $this->create($product));
-            }
-            return $this->users_list;
-        } catch (PDOException $e) {
-            print $e->getMessage();
-        }
-    }
-
-    function delete($id) {
-        try {
-            $statement = $this->connection->prepare("DELETE FROM {$this->table} WHERE pk = ?");
-            $statement->execute([$id]);
-
-        } catch (PDOException $e) {
-            print $e->getMessage();
-        }
-    }
-
-
-
-    // fonction "magique" pour faire ça plus simplement
-    function __get($property) {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-    }
-
-    function __set($property, $value) {
-        if (property_exists($this, $property)) {
-            $this->$property = $value;
-        }
+    function deleteUser($id) {
+        $colfields = "pk";
+        $numfields= "?";
+        parent::delete($colfields, $numfields, $id);
     }
 
 }

@@ -2,7 +2,7 @@
 
 
 class Product {
-    //protected?
+
     private $pk;
     private $name;
     private $price;
@@ -22,7 +22,6 @@ class Product {
         $this->quantity = $quantity;
     }
 
-    // fonction "magique" pour faire ça plus simplement
     function __get($property) {
         if (property_exists($this, $property)) {
             return $this->$property;

@@ -1,8 +1,8 @@
 <?php
 
 
-class Users
-{
+class Users {
+
     private $pk;
     private $username;
     private $password;

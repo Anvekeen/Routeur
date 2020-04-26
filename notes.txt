@@ -8,3 +8,25 @@ https://www.pierre-giraud.com/jquery-apprendre-cours/creation-requete-ajax/
 
 https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/JSON/parse
 
+
+// faut gérer la tva & co coté appli. Donc faut supprimer les triggers
+
+
+demander ses remarques par mail (ou autre)
+demander pour trigger users
+demander pour vérif caractères > htmlspecialchars
+
+vue liste + prod unique ou lesdeux?
+
+
+
+//network dans inspecter pour voir les détails des ajax
+
+// les __get et __set des product/users sont des fonctions "magiques" =>
+déjà mises en place par php, définies par leur "__" au début du nom (exemple : __construct)
+
+
+Pour la gestion des fields :
+    data[pk => 1, user => truc, password => trucmuche, etc]
+
+foreach ($data as $ key => $value)

@@ -1,65 +1,67 @@
 $(document).ready(function() {
     console.log('1: jquery ready');
 
-    $('.modif').on('click', function() {
-        var id = $(this).attr("data-id");
-        console.log(id);
-        $.post('update.php', { id:id })
+    $('.productmodif').on('click', function() {
+        var id = $(this).attr("productinfo");
+        $.post('update.php', { productid:id })
             .done(function (objet) {
                 var product = JSON.parse(objet);
-                $('#test').val('update');
-                $('#id').val(product.pk);
+                $('#productType').val('productupdate');
+                $('#productpk').val(product.pk);
                 $('#name').val(product.name);
-                $('#price').val(product.price_total);
+                $('#price').val(product.price);
+                $('#vat').val(product.vat);
                 $('#quantity').val(product.quantity);
             });
     });
 
     $('.usermodif').on('click', function() {
-        var id = $(this).attr("data-id");
-        console.log(id);
+        var id = $(this).attr("userinfo");
+        //console.log(id); //pour vérifier dans la console
         $.post('update.php', { userid:id })
             .done(function (objet) {
                 var user = JSON.parse(objet);
-                $('#usertest').val('userupdate');
-                $('#userid').val(user.pk);
+                $('#userType').val('userupdate');
+                $('#userpk').val(user.pk);
                 $('#username').val(user.username);
                 $('#password').val(user.password);
             });
     });
 
-
-    $('#search-form').on('submit', function(event) {
+    $('#product-search-form').on('submit', function(event) {
         event.preventDefault();
-        $.get('ajax.php', {pk: $('#pk-search').val()}
+        $.get('search_product.php', {PKprod: $('#PKsearchProduct').val()}
         )
             .done(function(data) {
-                $('#ajax-rsp').html(data);
+                $('#searchProduct').html(data);
             });
     });
 
     $('#user-search-form').on('submit', function(event) {
         event.preventDefault();
-        $.get('ajax2.php', {userpk: $('#user-pk-search').val()}
+        $.get('search_user.php', {PKuser: $('#PKsearchUser').val()}
         )
             .done(function(data) {
-                $('#ajax2-rsp').html(data);
+                $('#searchUser').html(data);
             });
     });
 
 });
 
 
-//fais un popup à l'écran (les déconseille)
-//alert('coucou');
-
-//log dans console
-//console.log('coucou console');
-
-//JQUERY = Librairie = une boîte à outils
+//note : peut-être ajouter fonction de vérif longueur des champs form
 
 
-/*<button type="button" id="btn">CLICK ME</button>
+
+/*fais un popup à l'écran (les déconseille)
+alert('coucou');
+
+log dans console
+console.log('coucou console');
+
+JQUERY = Librairie = une boîte à outils
+
+<button type="button" id="btn">CLICK ME</button>
     $('#btn').on('click', function() {
         $('#product-list td').css('font-weight', 600);
         //les td dans balise productlist, sinon si product-list, td = les deux
