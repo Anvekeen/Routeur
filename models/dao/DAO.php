@@ -14,7 +14,7 @@ abstract class DAO // n'est pas instanciée dans l'état
     }
 
     function delete($id) {
-        $this->deleteBehaviour->delete($id);
+        $this->deleteBehaviour->delete($id, $this->connection, $this->table);
     }
 
     function save($data) {
