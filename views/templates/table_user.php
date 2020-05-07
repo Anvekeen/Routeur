@@ -13,9 +13,9 @@
         <tr>
             <th scope="row" class="username"><?= $user->__get('username'); ?></th>
             <td class="userpass"><?= $user->__get('password'); ?></td>
-            <td><button type="button" class="usermodif" userinfo="<?= $user->__get('pk'); ?>">Modifier</button></td>
-            <td><form action="index.php" method="post">
-                    <input type="hidden" name="userdelete" value="<?= $user->__get('pk'); ?>">
+            <td><button type="button" class="usermodif" userinfo="<?= $user->__get('id'); ?>">Modifier</button></td>
+            <td><form action="../../index.php" method="post">
+                    <input type="hidden" name="userdelete" value="<?= $user->__get('id'); ?>">
                     <input type="submit" value="Supprimer" onclick="return confirm('Êtes-vous sur de vouloir supprimer ?')">
                 </form></td>
         </tr>

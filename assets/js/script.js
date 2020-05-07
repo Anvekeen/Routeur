@@ -3,11 +3,11 @@ $(document).ready(function() {
 
     $('.productmodif').on('click', function() {
         var id = $(this).attr("productinfo");
-        $.post('update.php', { productid:id })
+        $.post('views/templates/update.php', { productid:id })
             .done(function (objet) {
                 var product = JSON.parse(objet);
                 $('#productType').val('productupdate');
-                $('#productpk').val(product.pk);
+                $('#productid').val(product.id);
                 $('#name').val(product.name);
                 $('#price').val(product.price);
                 $('#vat').val(product.vat);
@@ -22,15 +22,16 @@ $(document).ready(function() {
             .done(function (objet) {
                 var user = JSON.parse(objet);
                 $('#userType').val('userupdate');
-                $('#userpk').val(user.pk);
+                $('#userid').val(user.id);
                 $('#username').val(user.username);
                 $('#password').val(user.password);
             });
     });
+});
 
-    $('#product-search-form').on('submit', function(event) {
+    /*$('#product-search-form').on('submit', function(event) {
         event.preventDefault();
-        $.get('search_product.php', {PKprod: $('#PKsearchProduct').val()}
+        $.get('search_product.php', {idprod: $('#idsearchProduct').val()}
         )
             .done(function(data) {
                 $('#searchProduct').html(data);
@@ -39,14 +40,12 @@ $(document).ready(function() {
 
     $('#user-search-form').on('submit', function(event) {
         event.preventDefault();
-        $.get('search_user.php', {PKuser: $('#PKsearchUser').val()}
+        $.get('search_user.php', {iduser: $('#idsearchUser').val()}
         )
             .done(function(data) {
                 $('#searchUser').html(data);
             });
-    });
-
-});
+    });*/
 
 
 //note : peut-être ajouter fonction de vérif longueur des champs form

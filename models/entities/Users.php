@@ -3,15 +3,15 @@
 
 class Users {
 
-    private $pk;
+    private $id;
     private $username;
     private $password;
     private $created_at;
     private $updated_at;
 
-    public function __construct($pk, $username, $password, $created_at, $updated_at)
+    public function __construct($id, $username, $password, $created_at, $updated_at)
     {
-        $this->pk = $pk;
+        $this->id = $id;
         $this->username = $username;
         $this->password = $password;
         $this->created_at = $created_at;

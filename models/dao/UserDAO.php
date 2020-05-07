@@ -1,15 +1,22 @@
 <?php
 
-include_once 'DAO.php';
+class UserDAO extends DAO {
+    protected $table;
+    protected $connection;
+    protected $object_list;
+    protected $deleteBehaviour;
 
-class UserManager extends DAO {
-
-    protected $db = 'demo';
-    protected $table = "users";
+    function __construct() {
+        $this->deleteBehaviour = new SoftDeleteBehaviour();
+        $this->object_list = array();
+        $this->table = 'products';
+        $this->connection = new PDO('mysql:host=localhost;dbname=demo_base', 'root', '');
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
 
     function create($data) {
         return new Users(
-            $data['pk'],
+            $data['id'],
             $data['username'],
             $data['password'],
             $data['created_at'],
@@ -18,11 +25,11 @@ class UserManager extends DAO {
     }
 
     function saveUser($data) {
-        $data['pk'] = -1;
+        $data['id'] = -1;
         $data['created_at'] = -1;
         $data['updated_at'] = -1;
         $user = $this->create([
-            'pk' => $data['pk'],
+            'id' => $data['id'],
             'username' =>$data['username'],
             'password' => $data['password'],
             'created_at'=> $data['created_at'],
@@ -38,20 +45,20 @@ class UserManager extends DAO {
 
     function updateUser($params) {
         $colfields = 'username = ?, password = ?';
-        $numfields =  'pk = ?';
-        $object = array($params['username'], $params['password'], $params['userpk']);
+        $numfields =  'id = ?';
+        $object = array($params['username'], $params['password'], $params['userid']);
         parent::update($colfields, $numfields, $object);
-        }
+    }
 
     function fetchUser($id) {  //pourrait check si $id bien int mais déjà check dans form html, pas sûr que utile
-        $colfields = "pk";
+        $colfields = "id";
         $numfields= "?";
         $result = parent::fetch($colfields, $numfields, $id);
         return $this->create($result);
     }
 
     function deleteUser($id) {
-        $colfields = "pk";
+        $colfields = "id";
         $numfields= "?";
         parent::delete($colfields, $numfields, $id);
     }

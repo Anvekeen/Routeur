@@ -3,7 +3,7 @@
 
 class Product {
 
-    private $pk;
+    private $id;
     private $name;
     private $price;
     private $vat;
@@ -11,9 +11,9 @@ class Product {
     private $price_total;
     private $quantity;
 
-    function __construct($pk, $name, $price, $vat, $quantity)
+    function __construct($id, $name, $price, $vat, $quantity)
     {
-        $this->pk = $pk;
+        $this->id = $id;
         $this->name = $name;
         $this->price = $price;
         $this->vat = $vat;

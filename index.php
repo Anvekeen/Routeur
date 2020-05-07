@@ -1,11 +1,39 @@
 <?php
-include './classes/Product.php'; //require = si erreur, stoppe l'exécution - include = si erreur, seulement warning mais code continue
-include './classes/ProductManager.php';  //once = surtout utile si des includes ou quoi en cascade ! Prof considère que comme on force le chargement une seule fois ça éviterait des probs si on l'avait include plusieurs fois... comme un "pansement", pas top
-include './classes/Users.php';          // "Comme include est une structure de langage particulière, les parenthèses ne sont pas nécessaires autour de l'argument. Faites attention lorsque vous comparez la valeur retournée." [  s'écrit : if ((include 'vars.php') == TRUE)  ]
-include './classes/UserManager.php';
+spl_autoload_register(function($class) {
+    if($class == "Router") {
+        include "router/Router.php";
+    } else if (strpos($class, "Controller")) {
+        include "controllers/{$class}.php";
+    } else if (strpos($class, "View")) {
+        include "views/{$class}.php";
+    } else if (strpos($class, "Behaviour")) {
+        include "models/dao/{$class}.php";
+    } else if (strpos($class, "DAO") || strpos($class, "DAO") === 0) {
+        include "models/dao/{$class}.php";
+    } else {
+        include "models/entities/{$class}.php";
+    }
+});
 
-$product_manager = new ProductManager();
-$user_manager = new UserManager();
+$router = new Router($_GET, $_POST, $_SERVER['PHP_SELF'], $_SERVER['REQUEST_URI']);
+
+/*$productDAO = new ProductDAO();
+$productDAO->delete(0);
+$productDAO->__set('deleteBehaviour', 'HardDeleteBehaviour');
+$productDAO->delete(0);
+$productDAO->__set('deleteBehaviour', 'SoftDeleteBehaviour');
+$productDAO->delete(0);*/
+
+/*
+
+<?php
+include './classes/Product.php'; //require = si erreur, stoppe l'exécution - include = si erreur, seulement warning mais code continue
+include './classes/ProductDAO.php';  //once = surtout utile si des includes ou quoi en cascade ! Prof considère que comme on force le chargement une seule fois ça éviterait des probs si on l'avait include plusieurs fois... comme un "pansement", pas top
+include './classes/Users.php';          // "Comme include est une structure de langage particulière, les parenthèses ne sont pas nécessaires autour de l'argument. Faites attention lorsque vous comparez la valeur retournée." [  s'écrit : if ((include 'vars.php') == TRUE)  ]
+include './classes/UserDAO.php';
+
+$product_manager = new ProductDAO();
+$user_manager = new UserDAO();
 
 if(isset($_POST) && isset($_POST['type']) && $_POST['type'] == 'productcreate') {
     $newpost = array_map('htmlspecialchars', $_POST);  //thx stackoverflow
@@ -51,10 +79,10 @@ if(isset($_POST) && isset($_POST['userdelete'])) {
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="js/script.js"></script>
+    <script src="assets/js/script.js"></script>
 </head>
 
 <body>
@@ -145,3 +173,5 @@ if(isset($_POST) && isset($_POST['userdelete'])) {
 
 </body>
 </html>
+
+*/

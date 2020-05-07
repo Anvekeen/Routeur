@@ -30,3 +30,4 @@ Pour la gestion des fields :
     data[pk => 1, user => truc, password => trucmuche, etc]
 
 foreach ($data as $ key => $value)
+

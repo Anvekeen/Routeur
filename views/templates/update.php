@@ -1,16 +1,16 @@
 <?php
 include './classes/Product.php';
-include './classes/ProductManager.php';
+include './classes/ProductDAO.php';
 include './classes/Users.php';
-include './classes/UserManager.php';
+include './classes/UserDAO.php';
 
-$product_manager = new ProductManager();
-$user_manager = new UserManager();
+$product_manager = new ProductDAO();
+$user_manager = new UserDAO();
 
 if (isset($_POST) && isset($_POST['productid'])) {
-    $prod = $product_manager->fetchProduct($_POST['productid']);
+    $prod = $product_manager->fetch($_POST['productid']);
     $produit = [
-        'pk' => $prod->__get('pk'),
+        'id' => $prod->__get('id'),
         'name' => $prod->__get('name'),
         'price' => $prod->__get('price'),
         'vat' => $prod->__get('vat'),
@@ -22,7 +22,7 @@ if (isset($_POST) && isset($_POST['productid'])) {
 if (isset($_POST) && isset($_POST['userid'])) {
     $u = $user_manager->fetchUser($_POST['userid']);
     $user = [
-        'pk' => $u->__get('pk'),
+        'id' => $u->__get('id'),
         'username' => $u->__get('username'),
         'password' => $u->__get('password')
     ];
